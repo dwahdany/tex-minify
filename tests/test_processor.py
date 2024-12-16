@@ -71,4 +71,32 @@ def test_nested_input():
         processed_content,
         expected_output,
         "Content should match expected output"
+    )
+
+
+def test_subfolder_input():
+    r"""Test processing a file that inputs content from a subfolder."""
+    test_dir = TEST_DIR / "subfolder_input"
+    input_file = test_dir / "main.tex"
+    expected_output = read_file(test_dir / "expected_output.txt")
+    
+    processed_content = process_tex_file(input_file)
+    assert_output_matches(
+        processed_content,
+        expected_output,
+        "Content from subfolder should be correctly included"
+    )
+
+
+def test_nested_subfolder_input():
+    r"""Test processing a file with nested subfolder includes."""
+    test_dir = TEST_DIR / "nested_subfolder"
+    input_file = test_dir / "main.tex"
+    expected_output = read_file(test_dir / "expected_output.txt")
+    
+    processed_content = process_tex_file(input_file)
+    assert_output_matches(
+        processed_content,
+        expected_output,
+        "Content from nested subfolders should be correctly included"
     ) 

@@ -1,0 +1,16 @@
+\documentclass{article}
+\begin{document}
+This is the main document.
+Below we include a section:
+
+This is the introduction section.
+It includes a subsection:
+
+This is the background subsection.
+It's located in a nested subfolder structure.
+The relative paths should still work correctly.
+
+End of introduction section.
+
+End of main document.
+\end{document} 
