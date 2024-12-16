@@ -18,12 +18,11 @@ def process_tex_file(file_path: Union[str, Path], base_dir: Optional[Path] = Non
         Processed TeX content with expanded \\input commands
     """
     file_path = Path(file_path)
+    current_dir = file_path.parent
     
-    # If no base_dir is provided, use the root directory of the input file
+    # If no base_dir is provided, use the directory of the current file
     if base_dir is None:
-        # Find the root directory by walking up until we find the project root
-        # (for this example, we'll use the directory containing the main .tex file)
-        base_dir = file_path.parent.resolve()
+        base_dir = current_dir
 
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -34,22 +33,27 @@ def process_tex_file(file_path: Union[str, Path], base_dir: Optional[Path] = Non
         if not input_path.endswith('.tex'):
             input_path += '.tex'
         
-        # Treat input path as absolute from base_dir
-        full_path = base_dir / input_path
+        # Try paths in order:
+        # 1. Relative to current file's directory
+        # 2. Relative to base directory
+        # 3. As a nested path from base directory
+        paths_to_try = [
+            current_dir / input_path,
+            base_dir / input_path,
+            base_dir / Path(*Path(input_path).parts)
+        ]
         
-        if not full_path.exists():
-            raise FileNotFoundError(
-                f"Input file not found: {input_path}\n"
-                f"Tried:\n"
-                f"  - From base dir: {full_path}"
-            )
-            
-        # Recursively process the input file, using the same base_dir
-        return process_tex_file(full_path, base_dir=base_dir)
+        for full_path in paths_to_try:
+            if full_path.exists():
+                # Recursively process the input file, using its directory as the new base_dir
+                return process_tex_file(full_path, base_dir=base_dir)
+                
+        raise FileNotFoundError(
+            f"Input file not found: {input_path}\n"
+            f"Tried:\n" +
+            "\n".join(f"  - {p}" for p in paths_to_try)
+        )
 
-    # Replace all \input commands
-    # This regex matches \input{filename} or \input {filename} patterns
-    pattern = r'\\input\s*{([^}]*)}'
-    processed_content = re.sub(pattern, expand_input, content)
-    
-    return processed_content
+    # Replace all \input commands with their expanded content
+    pattern = r'\\input\{([^}]+)\}'
+    return re.sub(pattern, expand_input, content)

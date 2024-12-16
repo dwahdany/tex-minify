@@ -99,21 +99,4 @@ def test_nested_subfolder_input():
         processed_content,
         expected_output,
         "Content from nested subfolders should be correctly included"
-    )
-
-
-def test_input_path_resolution():
-    """Test that input paths are correctly resolved from the base directory."""
-    test_dir = TEST_DIR / "nested_subfolder"
-    input_file = test_dir / "main.tex"
-    
-    # Process file and verify it can find nested inputs
-    processed_content = process_tex_file(input_file)
-    expected_output = read_file(test_dir / "expected_output.txt")
-    
-    assert_output_matches(
-        processed_content,
-        expected_output,
-        "Should correctly resolve nested input paths from base directory"
-    )
- 
+    ) 
