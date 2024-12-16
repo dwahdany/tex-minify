@@ -27,10 +27,10 @@ Repository = "https://github.com/yourusername/tex-minify.git"
 "Bug Tracker" = "https://github.com/yourusername/tex-minify/issues"
 
 [project.scripts]
-tex-minify = "tex_minify.cli:main"
+tex-minify = "tex_minify.cli:cli"
 
 [project.entry-points."uvx"]
-tex-minify = "tex_minify.cli:main"
+tex-minify = "tex_minify.cli:cli"
 
 [build-system]
 requires = ["hatchling"]
