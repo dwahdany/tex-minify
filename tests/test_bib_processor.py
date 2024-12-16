@@ -32,6 +32,31 @@ def test_extract_multiple_cite_commands():
     assert citations == {"key1", "key2", "key3"}
 
 
+def test_extract_natbib_citations():
+    content = r"""
+    Testing natbib citation variants:
+    \citet{key1}
+    \citep{key2}
+    \citet*{key3}
+    \citep*{key4}
+    \citeauthor{key5}
+    \citeyear{key6}
+    """
+    citations = extract_citations(content)
+    assert citations == {"key1", "key2", "key3", "key4", "key5", "key6"}
+
+
+def test_extract_citations_with_tilde():
+    content = r"""
+    Testing citations with tilde:
+    CIFAR10~\cite{key1}, CIFAR100~\cite{key2}
+    Dataset1~\citep{key3}
+    Method2~\citet{key4}
+    """
+    citations = extract_citations(content)
+    assert citations == {"key1", "key2", "key3", "key4"}
+
+
 def test_extract_duplicate_citations():
     content = r"""
     Duplicate citations:
@@ -130,4 +155,5 @@ def test_filter_bib_file_with_comments(tmp_path):
     used_citations = {"key1"}
     filtered = filter_bib_file(bib_file, used_citations)
     assert "@article{key1," in filtered
-    assert "@book{key2," not in filtered 
+    assert "@book{key2," not in filtered
+ 

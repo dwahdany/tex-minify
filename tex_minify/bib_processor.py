@@ -14,9 +14,12 @@ def extract_citations(content: str) -> Set[str]:
     Returns:
         Set of citation keys
     """
-    # Match \cite{key}, \citep{key}, \citet{key}, etc.
+    # Match all citation variants:
+    # \cite{key}, \citep{key}, \citet{key}, \citep*{key}, \citet*{key},
+    # \citeauthor{key}, \citeyear{key}
     # Also handles multiple keys in one citation: \cite{key1,key2,key3}
-    pattern = r'\\cite[tp]?\s*{([^}]*)}'
+    # Also handles citations preceded by a tilde: text~\cite{key}
+    pattern = r'\\cite(?:t\*?|p\*?|author|year)?\s*{([^}]*)}'
     citations = set()
     
     for match in re.finditer(pattern, content):
