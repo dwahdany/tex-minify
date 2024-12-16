@@ -1,6 +1,6 @@
 [project]
 name = "tex-minify"
-version = "0.2.0"
+version = "0.2.1"
 description = "A CLI tool to expand \\input commands in TeX files"
 authors = [
     {name = "Your Name", email = "your.email@example.com"},
