@@ -2,26 +2,42 @@
 
 A command-line tool to expand `\input` commands in TeX files.
 
-## Installation
-
-Using pixi:
-
-```bash
-pixi install
-pixi run install
-```
-
 ## Usage
+
+### Using uvx (no installation required)
 
 ```bash
 # Basic usage (prints to stdout)
-tex-minify input.tex
+uvx tex-minify input.tex
 
 # Save to output file
-tex-minify input.tex -o output.tex
+uvx tex-minify input.tex -o output.tex
 
 # Specify base directory for \input resolution
-tex-minify input.tex --base-dir /path/to/tex/files -o output.tex
+uvx tex-minify input.tex --base-dir /path/to/tex/files -o output.tex
+```
+
+### Using pip installation
+
+First install:
+```bash
+pip install tex-minify
+```
+
+Then use:
+```bash
+tex-minify input.tex -o output.tex
+```
+
+### Using pixi (for development)
+
+```bash
+# Setup development environment
+pixi install
+pixi run install
+
+# Run the tool
+pixi run tex-minify input.tex
 ```
 
 ## Features

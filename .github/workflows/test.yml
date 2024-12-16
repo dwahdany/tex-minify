@@ -1,0 +1,30 @@
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.11"]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install Pixi
+      uses: prefix-dev/setup-pixi@v0.4.1
+
+    - name: Install dependencies
+      run: pixi install
+
+    - name: Install package
+      run: pixi run install
+
+    - name: Run tests
+      run: pixi run test 
