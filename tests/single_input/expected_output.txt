@@ -1,0 +1,9 @@
+\documentclass{article}
+\begin{document}
+Here is the main document.
+
+This is some included content.
+It should appear in the main document.
+
+End of document.
+\end{document} 
