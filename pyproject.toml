@@ -50,7 +50,13 @@ pip = "*"
 click = ">=8.1.0"
 pytest = ">=7.0.0"
 
+[tool.pixi.host-dependencies]
+bump2version = "*"
+
 [tool.pixi.tasks]
 install = "pip install -e ."
 test = "pytest tests/"
 build = "pip install build && python -m build"
+bump-patch = "bump2version patch"
+bump-minor = "bump2version minor"
+bump-major = "bump2version major"
