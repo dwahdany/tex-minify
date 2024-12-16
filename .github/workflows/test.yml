@@ -18,12 +18,13 @@ jobs:
 
     - name: Install Pixi
       uses: prefix-dev/setup-pixi@v0.4.1
-
+      with:
+        manifest-path: pyproject.toml
 
     - name: Install dependencies
       run: |
-        pixi install --manifest-path pyproject.toml
-        pixi run --manifest-path pyproject.toml install
+        pixi install
+        pixi run install
 
     - name: Run tests
-      run: pixi run --manifest-path pyproject.toml test
+      run: pixi run test
