@@ -1,4 +1,4 @@
-name: Create Release
+name: Release and Publish
 
 on:
   push:
@@ -6,10 +6,11 @@ on:
       - 'v*'  # Trigger on version tags
 
 jobs:
-  build:
+  release-and-publish:
     runs-on: ubuntu-latest
     permissions:
       contents: write  # Needed for creating releases
+      id-token: write  # Required for PyPI trusted publishing
     steps:
       - uses: actions/checkout@v4
       
@@ -35,3 +36,6 @@ jobs:
           draft: false
           prerelease: false
           generate_release_notes: true
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
