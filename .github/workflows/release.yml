@@ -6,7 +6,30 @@ on:
       - 'v*'  # Trigger on version tags
 
 jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Pixi
+      uses: prefix-dev/setup-pixi@v0.4.1
+      with:
+        manifest-path: pyproject.toml
+
+    - name: Install dependencies
+      run: |
+        pixi install
+        pixi run install
+
+    - name: Run tests
+      run: pixi run test
+
   release-and-publish:
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: write  # Needed for creating releases
